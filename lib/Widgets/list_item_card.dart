@@ -7,7 +7,6 @@ class ListItemCard extends StatelessWidget {
   final String subtitle;
   final String imageAsset;
   final bool isActive;
-  final IconData icon;
   final Color accentColor;
   final VoidCallback onTap;
   final VoidCallback onView;
@@ -20,7 +19,6 @@ class ListItemCard extends StatelessWidget {
     required this.subtitle,
     required this.imageAsset,
     required this.isActive,
-    required this.icon,
     required this.accentColor,
     required this.onTap,
     required this.onView,
