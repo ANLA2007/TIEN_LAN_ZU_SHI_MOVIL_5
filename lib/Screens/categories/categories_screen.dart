@@ -8,57 +8,35 @@ import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
 import '../../app_routes.dart';
 
-class Categoria {
-  final String nombre;
-  final String descripcion;
-  final String imagen;
-  final bool activa;
-  final IconData icono;
-  final Color color;
-
-  const Categoria({
-    required this.nombre,
-    required this.descripcion,
-    required this.imagen,
-    required this.activa,
-    required this.icono,
-    required this.color,
-  });
-}
-
-final List<Categoria> categorias = [
-  const Categoria(
-    nombre: 'Principales',
-    descripcion: 'Platos fuertes, especialidades y recetas de la casa.',
-    imagen: 'assets/principales.jpeg',
-    activa: true,
-    icono: Icons.restaurant_menu,
-    color: AppColors.accentRed,
-  ),
-  const Categoria(
-    nombre: 'Entradas',
-    descripcion: 'Aperitivos, bocadillos y opciones para compartir.',
-    imagen: 'assets/entradas.jpeg',
-    activa: false,
-    icono: Icons.soup_kitchen,
-    color: AppColors.accentYellow,
-  ),
-  const Categoria(
-    nombre: 'Bebidas',
-    descripcion: 'Refrescos naturales, cocteles y cafe.',
-    imagen: 'assets/bebidas.jpeg',
-    activa: true,
-    icono: Icons.local_bar,
-    color: AppColors.accentYellow,
-  ),
-  const Categoria(
-    nombre: 'Postres',
-    descripcion: 'Dulces artesanales, helados y reposteria.',
-    imagen: 'assets/postres.jpeg',
-    activa: false,
-    icono: Icons.icecream,
-    color: AppColors.accentGreen,
-  ),
+final List<Map<String, dynamic>> categorias = [
+  {
+    'nombre': 'Principales',
+    'descripcion': 'Platos fuertes, especialidades y recetas de la casa.',
+    'imagen': 'assets/principales.jpeg',
+    'activa': true,
+    'color': AppColors.accentRed,
+  },
+  {
+    'nombre': 'Entradas',
+    'descripcion': 'Aperitivos, bocadillos y opciones para compartir.',
+    'imagen': 'assets/entradas.jpeg',
+    'activa': false,
+    'color': AppColors.accentYellow,
+  },
+  {
+    'nombre': 'Bebidas',
+    'descripcion': 'Refrescos naturales, cocteles y cafe.',
+    'imagen': 'assets/bebidas.jpeg',
+    'activa': true,
+    'color': AppColors.accentYellow,
+  },
+  {
+    'nombre': 'Postres',
+    'descripcion': 'Dulces artesanales, helados y reposteria.',
+    'imagen': 'assets/postres.jpeg',
+    'activa': false,
+    'color': AppColors.accentGreen,
+  },
 ];
 
 class CategoriesScreen extends StatelessWidget {
@@ -84,7 +62,9 @@ class CategoriesScreen extends StatelessWidget {
                     hintText: 'Buscar categoria...',
                     actionLabel: 'Nueva Categoria',
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.newcategories);
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.newcategories,
+                      );
                     },
                   ),
                 ],
@@ -94,17 +74,17 @@ class CategoriesScreen extends StatelessWidget {
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                 itemCount: categorias.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 12),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 12),
                 itemBuilder: (context, index) {
-                  final Categoria categoria = categorias[index];
+                  final categoria = categorias[index];
 
                   return ListItemCard(
-                    title: categoria.nombre,
-                    subtitle: categoria.descripcion,
-                    imageAsset: categoria.imagen,
-                    isActive: categoria.activa,
-                    icon: categoria.icono,
-                    accentColor: categoria.color,
+                    title: categoria['nombre'] as String,
+                    subtitle: categoria['descripcion'] as String,
+                    imageAsset: categoria['imagen'] as String,
+                    isActive: categoria['activa'] as bool,
+                    accentColor: categoria['color'] as Color,
                     onTap: () {},
                     onView: () {},
                     onEdit: () {},
