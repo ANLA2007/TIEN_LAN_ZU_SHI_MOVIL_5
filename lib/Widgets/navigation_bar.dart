@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Themes/app_colors.dart';
+import '../app_routes.dart';
 
 class AppNavigatorBar extends StatelessWidget {
   final int currentIndex;
@@ -31,29 +32,29 @@ class AppNavigatorBar extends StatelessWidget {
 
           switch (index) {
             case 0:
-              Navigator.of(context).pushReplacementNamed('/home');
+             // Navigator.of(context).pushReplacementNamed(AppRoutes.home);
               break;
             case 1:
-              Navigator.of(context).pushReplacementNamed('/categorias');
+              Navigator.of(context).pushReplacementNamed(AppRoutes.categories);
               break;
             case 2:
-              Navigator.of(context).pushReplacementNamed('/platillos');
+             // Navigator.of(context).pushReplacementNamed(AppRoutes.platillos);
               break;
             case 3:
-              Navigator.of(context).pushReplacementNamed('/inventario');
+             // Navigator.of(context).pushReplacementNamed(AppRoutes.inventario);
               break;
             case 4:
-              Navigator.of(context).pushReplacementNamed('/movimiento');
+              //Navigator.of(context).pushReplacementNamed(AppRoutes.movimiento);
               break;
             case 5:
-              Navigator.of(context).pushReplacementNamed('/reportes');
+              //Navigator.of(context).pushReplacementNamed(AppRoutes.reportes);
               break;
           }
         },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home, color: Colors.white), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.category, color: Colors.white), label: 'Categoria'),
-          NavigationDestination(icon: Icon(Icons.restaurant_menu, color: Colors.white), label: 'Platillos'),
+          NavigationDestination(icon: Icon(Icons.restaurant_menu, color: Colors.white), label: 'platillos'),
           NavigationDestination(icon: Icon(Icons.inventory_2, color: Colors.white), label: 'Inventario'),
           NavigationDestination(icon: Icon(Icons.swap_horiz, color: Colors.white), label: 'Movimiento'),
           NavigationDestination(icon: Icon(Icons.bar_chart, color: Colors.white), label: 'Reportes'),
