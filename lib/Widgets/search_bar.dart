@@ -5,12 +5,14 @@ import '../Themes/app_colors.dart';
 class AppSearchBar extends StatelessWidget {
   final String hintText;
   final String actionLabel;
+  final IconData actionIcon; 
   final VoidCallback onPressed;
 
   const AppSearchBar({
     super.key,
     this.hintText = 'Buscar...',
     required this.actionLabel,
+    this.actionIcon = Icons.add,   
     required this.onPressed,
   });
 
@@ -48,7 +50,7 @@ class AppSearchBar extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(14)),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.add, color: Colors.white, size: 20),
+           Icon(actionIcon, color: Colors.white, size: 20),
               const SizedBox(width: 6),
               Text(actionLabel, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
             ]),
