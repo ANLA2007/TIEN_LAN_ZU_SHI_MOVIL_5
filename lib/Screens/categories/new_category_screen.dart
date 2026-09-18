@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../Themes/app_colors.dart';
 import '../../Widgets/app_top_bar.dart';
 import '../../Widgets/navigation_bar.dart';
@@ -7,6 +6,7 @@ import '../../Widgets/photos_picker.dart';
 import '../../Widgets/form_text_field.dart';
 import '../../Widgets/status_switch.dart';
 import '../../Widgets/form_buttons.dart';
+import '../../Widgets/app_drawer.dart';
 
 class NuevaCategoriaScreen extends StatelessWidget {
   const NuevaCategoriaScreen({super.key});
@@ -15,7 +15,7 @@ class NuevaCategoriaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      drawer: const Drawer(),
+  drawer: const AppDrawer(),
       appBar: const AppTopBar(title: 'Nueva Categoria'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

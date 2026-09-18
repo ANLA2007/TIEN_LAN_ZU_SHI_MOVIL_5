@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../Themes/app_colors.dart';
 import '../../Widgets/navigation_bar.dart';
 import '../../Widgets/app_top_bar.dart';
+import '../../Widgets/app_drawer.dart';
 
 final List<Map<String, String>> _ventasRecientes = [
   {
@@ -44,7 +45,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      drawer: const Drawer(),
+      drawer: const AppDrawer(),
       appBar: const AppTopBar(title: 'Tien Lan Zhu Shi'),
       body: SafeArea(
         bottom: false,
