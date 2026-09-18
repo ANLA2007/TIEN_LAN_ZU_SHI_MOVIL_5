@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../Themes/app_colors.dart';
 import '../../Widgets/app_top_bar.dart';
 import '../../Widgets/list_item_card.dart';
@@ -7,6 +6,7 @@ import '../../Widgets/navigation_bar.dart';
 import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
 import '../../app_routes.dart';
+import '../../Widgets/app_drawer.dart';
 
 final List<Map<String, dynamic>> categorias = [
   {
@@ -46,7 +46,7 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      drawer: const Drawer(),
+    drawer: const AppDrawer(),
       appBar: const AppTopBar(title: 'Categorias'),
       body: SafeArea(
         bottom: false,

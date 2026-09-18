@@ -4,7 +4,7 @@ import '../Themes/app_colors.dart';
 import '../app_routes.dart';
 
 class AppNavigatorBar extends StatelessWidget {
-  final int currentIndex;
+  final int? currentIndex;
 
   const AppNavigatorBar({super.key, required this.currentIndex});
 
@@ -26,7 +26,7 @@ class AppNavigatorBar extends StatelessWidget {
         indicatorColor: AppColors.accentYellow.withOpacity(0.35),
         height: 64,
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        selectedIndex: currentIndex,
+       selectedIndex: currentIndex ?? 0,
         onDestinationSelected: (int index) {
           if (currentIndex == index) return;
 
