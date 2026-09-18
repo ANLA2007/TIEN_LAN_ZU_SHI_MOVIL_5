@@ -32,7 +32,7 @@ class AppNavigatorBar extends StatelessWidget {
 
           switch (index) {
             case 0:
-             // Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+             Navigator.of(context).pushReplacementNamed(AppRoutes.home);
               break;
             case 1:
               Navigator.of(context).pushReplacementNamed(AppRoutes.categories);
