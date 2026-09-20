@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_buffet/Screens/Logs/logs_screen.dart';
+import 'package:flutter_buffet/Screens/Reports/reports_screen.dart';
 import 'app_routes.dart';
 import 'screens/categories/categories_screen.dart';
 import 'screens/categories/new_category_screen.dart';
@@ -23,7 +24,8 @@ class MainApp extends StatelessWidget {
         AppRoutes.home: (_) => const DashboardScreen(),
         AppRoutes.categories: (_) => const CategoriesScreen(),
         AppRoutes.newcategories: (_) => const NuevaCategoriaScreen(),
-        AppRoutes.logs:(_)=>const LogsScreen()
+        AppRoutes.logs:(_)=>const LogsScreen(),
+        AppRoutes.reportes:(_)=>const ReportsScreen()
       },
     );
   }

@@ -4,6 +4,7 @@ static const String home = '/dashboard';
 static const String categories = '/categories';
 static const String newcategories='/new_categories';
 static const String logs ='/logs';
+static const String reportes='/reportes';
 
 
   AppRoutes._();
