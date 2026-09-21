@@ -5,6 +5,7 @@ import 'app_routes.dart';
 import 'screens/categories/categories_screen.dart';
 import 'screens/categories/new_category_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
+import 'screens/inventory/inventory_screen.dart';
 //import 'Screens/login/login_screen.dart';
 
 void main() {
@@ -25,7 +26,8 @@ class MainApp extends StatelessWidget {
         AppRoutes.categories: (_) => const CategoriesScreen(),
         AppRoutes.newcategories: (_) => const NuevaCategoriaScreen(),
         AppRoutes.logs:(_)=>const LogsScreen(),
-        AppRoutes.reportes:(_)=>const ReportsScreen()
+        AppRoutes.reportes:(_)=>const ReportsScreen(),
+        AppRoutes.inventario:(_)=>const InventoryScreen()
       },
     );
   }
