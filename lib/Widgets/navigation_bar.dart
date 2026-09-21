@@ -41,7 +41,7 @@ class AppNavigatorBar extends StatelessWidget {
              // Navigator.of(context).pushReplacementNamed(AppRoutes.platillos);
               break;
             case 3:
-             // Navigator.of(context).pushReplacementNamed(AppRoutes.inventario);
+              Navigator.of(context).pushReplacementNamed(AppRoutes.inventario);
               break;
             case 4:
               //Navigator.of(context).pushReplacementNamed(AppRoutes.movimiento);
