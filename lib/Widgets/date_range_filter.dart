@@ -7,6 +7,8 @@ class DateRangeFilter extends StatelessWidget {
   final String hasta;
   final VoidCallback onDesdeTap;
   final VoidCallback onHastaTap;
+  final ValueChanged<DateTime>? onDesdeFecha;
+  final ValueChanged<DateTime>? onHastaFecha;
 
   const DateRangeFilter({
     super.key,
@@ -14,31 +16,70 @@ class DateRangeFilter extends StatelessWidget {
     required this.hasta,
     required this.onDesdeTap,
     required this.onHastaTap,
+    this.onDesdeFecha,
+    this.onHastaFecha,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: campoFecha('Desde', desde, onDesdeTap)),
+        Expanded(
+          child: campoFecha(context, 'Desde', desde, onDesdeTap, onDesdeFecha),
+        ),
         const SizedBox(width: 12),
-        Expanded(child: campoFecha('Hasta', hasta, onHastaTap)),
+        Expanded(
+          child: campoFecha(context, 'Hasta', hasta, onHastaTap, onHastaFecha),
+        ),
       ],
     );
   }
 
-  Widget campoFecha(String label, String valor, VoidCallback onTap) {
+  Widget campoFecha(
+    BuildContext context,
+    String label,
+    String valor,
+    VoidCallback onTap,
+    ValueChanged<DateTime>? onFecha,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(color: AppColors.primary,
-             fontWeight: FontWeight.w600, fontSize: 12.5)),
-             
+        Text(
+          label,
+          style: const TextStyle(
+            color: AppColors.primary,
+            fontWeight: FontWeight.w600,
+            fontSize: 12.5,
+          ),
+        ),
         const SizedBox(height: 6),
         InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
+          onTap: () async {
+            final resultado = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+              builder: (context, child) {
+                return Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: const ColorScheme.light(
+                      primary: AppColors.primary,
+                    ),
+                  ),
+                  child: child!,
+                );
+              },
+            );
+
+            if (resultado case DateTime fecha) {
+              onFecha?.call(fecha);
+            }
+
+            onTap();
+          },
           child: Container(
             height: 44,
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -50,11 +91,17 @@ class DateRangeFilter extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(valor,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 13)),
+                  child: Text(
+                    valor,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 13),
+                  ),
                 ),
-                const Icon(Icons.calendar_today_outlined, size: 16, color: AppColors.textGrey),
+                const Icon(
+                  Icons.calendar_today_outlined,
+                  size: 16,
+                  color: AppColors.textGrey,
+                ),
               ],
             ),
           ),
