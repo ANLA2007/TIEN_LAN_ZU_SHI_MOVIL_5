@@ -74,11 +74,12 @@ class LogsScreen extends StatefulWidget {
 }
 
 class LogsScreenState extends State<LogsScreen> {
-  String fechaDesde = '01/05/2024';
-  String fechaHasta = '25/05/2024';
   String busqueda = '';
   final TextEditingController buscadorController = TextEditingController();
   List<Map<String, dynamic>> logsFiltrados = [];
+
+  DateTime desde = DateTime(2024, 5, 1);
+  DateTime hasta = DateTime(2024, 5, 25);
 
   @override
   void initState() {
@@ -92,30 +93,33 @@ class LogsScreenState extends State<LogsScreen> {
     super.dispose();
   }
 
-  DateTime aFecha(String t) {
-    var p = t.split('/');
-    return DateTime(int.parse(p[2]), int.parse(p[1]), int.parse(p[0]));
-  }
-
-  bool enRango(String fecha) {
-    DateTime f = aFecha(fecha);
-    DateTime desde = aFecha(fechaDesde);
-    DateTime hasta = aFecha(fechaHasta);
-    return !f.isBefore(desde) && !f.isAfter(hasta);
-  }
-
   bool coincideNombre(Map<String, dynamic> log) {
     if (busqueda.isEmpty) return true;
-    return log['titulo'].toLowerCase().contains(busqueda.toLowerCase());
+    return (log['titulo'] as String)
+        .toLowerCase()
+        .contains(busqueda.toLowerCase());
+  }
+
+  bool coincideFecha(Map<String, dynamic> log) {
+    final partes = (log['fecha'] as String).split('/');
+    final fechaLog = DateTime(
+      int.parse(partes[2]),
+      int.parse(partes[1]),
+      int.parse(partes[0]),
+    );
+    return !fechaLog.isBefore(desde) && !fechaLog.isAfter(hasta);
   }
 
   void filtrarLogs() {
     setState(() {
       logsFiltrados = logs
-          .where((log) => enRango(log['fecha']) && coincideNombre(log))
+          .where((log) => coincideNombre(log) && coincideFecha(log))
           .toList();
     });
   }
+
+  String formatFecha(DateTime f) =>
+      '${f.day.toString().padLeft(2, '0')}/${f.month.toString().padLeft(2, '0')}/${f.year}';
 
   @override
   Widget build(BuildContext context) {
@@ -144,41 +148,23 @@ class LogsScreenState extends State<LogsScreen> {
                     onPressed: filtrarLogs,
                   ),
                   const SizedBox(height: 12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: DateRangeFilter(
-                          desde: fechaDesde,
-                          hasta: fechaHasta,
-                          onDesdeTap: () {},
-                          onHastaTap: () {},
-                          onDesdeFecha: (fecha) => setState(
-                              () => fechaDesde = '${fecha.day}/${fecha.month}/${fecha.year}'),
-                          onHastaFecha: (fecha) => setState(
-                              () => fechaHasta = '${fecha.day}/${fecha.month}/${fecha.year}'),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: filtrarLogs,
-                        child: Container(
-                          height: 44,
-                          width: 44,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.filter_alt_outlined,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                    ],
+                  DateRangeFilter(
+                    desde: formatFecha(desde),
+                    hasta: formatFecha(hasta),
+                    onDesdeTap: () {},
+                    onHastaTap: () {},
+                    onDesdeFecha: (fecha) {
+                      setState(() {
+                        desde = fecha;
+                        filtrarLogs();
+                      });
+                    },
+                    onHastaFecha: (fecha) {
+                      setState(() {
+                        hasta = fecha;
+                        filtrarLogs();
+                      });
+                    },
                   ),
                 ],
               ),
