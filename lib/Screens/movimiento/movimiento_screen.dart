@@ -1,0 +1,233 @@
+import 'package:flutter/material.dart';
+import '../../Themes/app_colors.dart';
+import '../../Widgets/app_top_bar.dart';
+import '../../Widgets/date_range_filter.dart';
+import '../../Widgets/navigation_bar.dart';
+import '../../Widgets/pagination_bar.dart';
+import '../../Widgets/search_bar.dart';
+import '../../Widgets/app_drawer.dart';
+import 'Widgets/movement_stat_card.dart';
+import 'Widgets/movement_item_card.dart';
+
+final List<Map<String, dynamic>> movimientos = [
+  {
+    'titulo': 'Tofu Firme',
+    'tipo': 'Entrada',
+    'fecha': '25/05/2024',
+    'hora': '10:30 AM',
+    'cantidad': 50,
+  },
+  {
+    'titulo': 'Curry Laksa Vegetal',
+    'tipo': 'Salida',
+    'fecha': '25/05/2024',
+    'hora': '01:15 PM',
+    'cantidad': -25,
+  },
+  {
+    'titulo': 'Salsa Sambal',
+    'tipo': 'Merma',
+    'fecha': '24/05/2024',
+    'hora': '11:20 AM',
+    'cantidad': -4,
+  },
+  {
+    'titulo': 'Tempeh',
+    'tipo': 'Salida',
+    'fecha': '23/05/2024',
+    'hora': '06:45 PM',
+    'cantidad': -15,
+  },
+];
+
+class MovimientoScreen extends StatefulWidget {
+  const MovimientoScreen({super.key});
+
+  @override
+  State<MovimientoScreen> createState() => MovimientoScreenState();
+}
+
+class MovimientoScreenState extends State<MovimientoScreen> {
+  String busqueda = '';
+  final TextEditingController buscadorController = TextEditingController();
+  List<Map<String, dynamic>> movimientosFiltrados = [];
+
+  DateTime desde = DateTime(2024, 5, 1);
+  DateTime hasta = DateTime(2024, 5, 25);
+
+  @override
+  void initState() {
+    super.initState();
+    filtrarMovimientos();
+  }
+
+  @override
+  void dispose() {
+    buscadorController.dispose();
+    super.dispose();
+  }
+
+  bool coincideNombre(Map<String, dynamic> movimiento) {
+    if (busqueda.isEmpty) return true;
+    return (movimiento['titulo'] as String)
+        .toLowerCase()
+        .contains(busqueda.toLowerCase());
+  }
+
+  void filtrarMovimientos() {
+    setState(() {
+      movimientosFiltrados = movimientos.where(coincideNombre).toList();
+    });
+  }
+
+  String formatFecha(DateTime f) =>
+      '${f.day.toString().padLeft(2, '0')}/${f.month.toString().padLeft(2, '0')}/${f.year}';
+
+  Future<void> seleccionarFecha({required bool esDesde}) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: esDesde ? desde : hasta,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+      builder: (context, child) => Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+                primary: AppColors.primary,
+              ),
+        ),
+        child: child!,
+      ),
+    );
+    if (picked == null) return;
+    setState(() {
+      if (esDesde) {
+        desde = picked;
+      } else {
+        hasta = picked;
+      }
+    });
+  }
+
+  IconData iconoPorTipo(String tipo) {
+    switch (tipo) {
+      case 'Entrada':
+        return Icons.arrow_downward;
+      case 'Salida':
+        return Icons.arrow_upward;
+      case 'Merma':
+        return Icons.warning_amber_rounded;
+      default:
+        return Icons.swap_horiz;
+    }
+  }
+
+  Color colorPorTipo(String tipo) {
+    switch (tipo) {
+      case 'Entrada':
+        return AppColors.active;
+      case 'Salida':
+        return AppColors.inactive;
+      case 'Merma':
+        return AppColors.danger;
+      default:
+        return AppColors.textGrey;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      drawer: const AppDrawer(),
+      appBar: const AppTopBar(title: 'Movimiento Inventario'),
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: MovementStatCard(
+                          label: 'Entradas',
+                          value: 145,
+                          color: AppColors.active,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: MovementStatCard(
+                          label: 'Salidas',
+                          value: -92,
+                          color: AppColors.inactive,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: MovementStatCard(
+                          label: 'Mermas',
+                          value: -8,
+                          color: AppColors.danger,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  AppSearchBar(
+                    hintText: 'Buscar platillo...',
+                    actionIcon: Icons.add,
+                    controller: buscadorController,
+                    onChanged: (valor) {
+                      busqueda = valor;
+                      filtrarMovimientos();
+                    },
+                    onPressed: () {
+                      // Navigator.of(context).pushNamed(AppRoutes.newmovimiento);
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  DateRangeFilter(
+                    desde: formatFecha(desde),
+                    hasta: formatFecha(hasta),
+                    onDesdeTap: () => seleccionarFecha(esDesde: true),
+                    onHastaTap: () => seleccionarFecha(esDesde: false),
+                  ),
+                  const SizedBox(height: 16),
+                  for (int i = 0; i < movimientosFiltrados.length; i++) ...[
+                    _buildItem(movimientosFiltrados[i]),
+                    if (i < movimientosFiltrados.length - 1)
+                      const SizedBox(height: 12),
+                  ],
+                ],
+              ),
+            ),
+            const PaginationBar(
+              currentPage: 1,
+              totalPages: 7,
+              infoText: 'Mostrando 1-4 de 28',
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const AppNavigatorBar(currentIndex: 4),
+    );
+  }
+
+  Widget _buildItem(Map<String, dynamic> movimiento) {
+    final tipo = movimiento['tipo'] as String;
+
+    return MovementItemCard(
+      icon: iconoPorTipo(tipo),
+      color: colorPorTipo(tipo),
+      title: movimiento['titulo'] as String,
+      badgeText: tipo,
+      fecha: movimiento['fecha'] as String,
+      hora: movimiento['hora'] as String,
+      cantidad: movimiento['cantidad'] as int,
+      onTap: () {},
+    );
+  }
+}

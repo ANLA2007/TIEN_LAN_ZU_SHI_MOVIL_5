@@ -9,7 +9,6 @@ class MovementItemCard extends StatelessWidget {
   final String badgeText;
   final String fecha;
   final String hora;
-  final String? nota;
   final int cantidad;
   final VoidCallback onTap;
 
@@ -23,7 +22,6 @@ class MovementItemCard extends StatelessWidget {
     required this.hora,
     required this.cantidad,
     required this.onTap,
-    this.nota,
   });
 
   @override
@@ -98,19 +96,11 @@ class MovementItemCard extends StatelessWidget {
                     style: const TextStyle(
                         color: AppColors.textGrey, fontSize: 12),
                   ),
-                  if (nota != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      '• $nota',
-                      style: const TextStyle(
-                          color: AppColors.textGrey, fontSize: 11.5),
-                    ),
-                  ],
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            Column(
+            Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -121,7 +111,7 @@ class MovementItemCard extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(width: 4),
                 Icon(Icons.chevron_right, color: AppColors.textGrey, size: 18),
               ],
             ),

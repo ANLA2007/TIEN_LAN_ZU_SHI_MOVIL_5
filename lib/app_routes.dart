@@ -9,6 +9,7 @@ static const String inventario='/inventario';
 static const String newinventario='/new_inventario';
 static const String platillos='/platillos';
 static const String newplatillos='/new_platillos';
+static const String movimiento='/movimiento';
 
 
   AppRoutes._();
