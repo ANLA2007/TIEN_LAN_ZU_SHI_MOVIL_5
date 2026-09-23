@@ -39,14 +39,46 @@ final List<Map<String, dynamic>> categorias = [
   },
 ];
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
+
+  @override
+  State<CategoriesScreen> createState() => CategoriesScreenState();
+}
+
+class CategoriesScreenState extends State<CategoriesScreen> {
+  String busqueda = '';
+  final TextEditingController buscadorController = TextEditingController();
+  List<Map<String, dynamic>> categoriasFiltradas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filtrarCategorias();
+  }
+
+  @override
+  void dispose() {
+    buscadorController.dispose();
+    super.dispose();
+  }
+
+  bool coincideNombre(Map<String, dynamic> categoria) {
+    if (busqueda.isEmpty) return true;
+    return (categoria['nombre'] as String).toLowerCase().contains(busqueda.toLowerCase());
+  }
+
+  void filtrarCategorias() {
+    setState(() {
+      categoriasFiltradas = categorias.where(coincideNombre).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-    drawer: const AppDrawer(),
+      drawer: const AppDrawer(),
       appBar: const AppTopBar(title: 'Categorias'),
       body: SafeArea(
         bottom: false,
@@ -60,7 +92,12 @@ class CategoriesScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   AppSearchBar(
                     hintText: 'Buscar categoria...',
-                    actionLabel: 'Nueva Categoria',
+                    actionIcon: Icons.add,
+                    controller: buscadorController,
+                    onChanged: (valor) {
+                      busqueda = valor;
+                      filtrarCategorias();
+                    },
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                         AppRoutes.newcategories,
@@ -73,11 +110,11 @@ class CategoriesScreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                itemCount: categorias.length,
+                itemCount: categoriasFiltradas.length,
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 12),
                 itemBuilder: (context, index) {
-                  final categoria = categorias[index];
+                  final categoria = categoriasFiltradas[index];
 
                   return ListItemCard(
                     title: categoria['nombre'] as String,
@@ -86,8 +123,11 @@ class CategoriesScreen extends StatelessWidget {
                     isActive: categoria['activa'] as bool,
                     accentColor: categoria['color'] as Color,
                     onTap: () {},
-                    onView: () {},
-                    onEdit: () {},
+                    onEdit: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.newcategories,
+                      );
+                    },
                     onDelete: () {},
                   );
                 },
