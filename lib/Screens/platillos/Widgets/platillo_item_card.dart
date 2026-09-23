@@ -105,18 +105,19 @@ class PlatilloItemCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Container(
-                        width: 6,
-                        height: 6,
-                        decoration:
-                            BoxDecoration(color: statusColor, shape: BoxShape.circle),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        available ? 'Disponible' : 'No disponible',
-                        style: TextStyle(
-                          color: statusColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: statusColor.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          available ? 'Activo' : 'Inactivo',
+                          style: TextStyle(
+                            color: statusColor,
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       const Spacer(),

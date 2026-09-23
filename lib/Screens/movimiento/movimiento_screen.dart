@@ -206,8 +206,8 @@ class MovimientoScreenState extends State<MovimientoScreen> {
             ),
             const PaginationBar(
               currentPage: 1,
-              totalPages: 7,
-              infoText: 'Mostrando 1-4 de 28',
+              totalPages: 3,
+              infoText: 'Mostrando 1-10 de 30',
             ),
           ],
         ),
