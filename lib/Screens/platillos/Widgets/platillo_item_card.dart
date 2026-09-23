@@ -9,7 +9,6 @@ class PlatilloItemCard extends StatelessWidget {
   final double price;
   final bool available;
   final VoidCallback onTap;
-  final VoidCallback onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -20,7 +19,6 @@ class PlatilloItemCard extends StatelessWidget {
     required this.imageAsset,
     required this.price,
     required this.onTap,
-    required this.onView,
     required this.onEdit,
     required this.onDelete,
     this.available = true,
@@ -92,7 +90,9 @@ class PlatilloItemCard extends StatelessWidget {
                     style: const TextStyle(
                         color: AppColors.textGrey, fontSize: 12.5),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
+                  const Divider(height: 1, color: AppColors.border),
+                  const SizedBox(height: 6),
                   Row(
                     children: [
                       Text(
@@ -120,9 +120,8 @@ class PlatilloItemCard extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      cardIcon(Icons.visibility_outlined, onView),
-                      cardIcon(Icons.edit_outlined, onEdit),
-                      cardIcon(Icons.delete_outline, onDelete),
+                      cardIcon(Icons.edit_outlined, onEdit , AppColors.primary),
+                      cardIcon(Icons.delete_outline, onDelete, AppColors.danger),
                     ],
                   ),
                 ],
@@ -134,14 +133,24 @@ class PlatilloItemCard extends StatelessWidget {
     );
   }
 
-  Widget cardIcon(IconData icon, VoidCallback onTap) {
-    return InkWell(
+  Widget cardIcon(IconData icon, VoidCallback onTap, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 6),
+    child: InkWell(
       borderRadius: BorderRadius.circular(8),
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(left: 6),
-        child: Icon(icon, size: 19, color: AppColors.textGrey),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, size: 18, color: color),
+        ),
       ),
+    ),
     );
   }
 }
