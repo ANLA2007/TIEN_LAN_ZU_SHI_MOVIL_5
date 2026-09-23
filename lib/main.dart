@@ -7,6 +7,8 @@ import 'screens/categories/new_category_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/inventory/inventory_screen.dart';
 import 'screens/platillos/platillos_screen.dart';
+//import 'screens/platillos/new_platillo_screen.dart';
+import 'screens/movimiento/movimiento_screen.dart';
 //import 'Screens/login/login_screen.dart';
 
 void main() {
@@ -30,6 +32,7 @@ class MainApp extends StatelessWidget {
         AppRoutes.reportes:(_)=>const ReportsScreen(),
         AppRoutes.inventario:(_)=>const InventoryScreen(),
         AppRoutes.platillos:(_)=>const PlatillosScreen(),
+        AppRoutes.movimiento:(_)=>const MovimientoScreen(),
       },
     );
   }
