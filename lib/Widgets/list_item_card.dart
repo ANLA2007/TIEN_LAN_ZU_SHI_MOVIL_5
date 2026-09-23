@@ -40,81 +40,92 @@ class ListItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.border),
         ),
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 62,
-                height: 62,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: accentColor, width: 2),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    imageAsset,
-                    width: 62,
-                    height: 62,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 62,
+                  height: 62,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: accentColor, width: 2),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      imageAsset,
                       width: 62,
                       height: 62,
-                      color: accentColor.withOpacity(0.25),
-                      alignment: Alignment.center,
-                      child: Icon(Icons.image_outlined, color: accentColor, size: 30),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: 62,
+                        height: 62,
+                        color: accentColor.withOpacity(0.25),
+                        alignment: Alignment.center,
+                        child: Icon(Icons.image_outlined, color: accentColor, size: 30),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(color: AppColors.primary,
-                               fontWeight: FontWeight.w700, fontSize: 16)),
-
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(color: statusColor.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(20)),
-                          
-                          child: Text(isActive ? 'Activa' : 'Inactiva',
-                              style: TextStyle(color: statusColor, fontSize: 10.5, 
-                              fontWeight: FontWeight.w600)),
-                        ),
-                      ],
-                    ),
-                    Text(subtitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: AppColors.textGrey, fontSize: 12.5)),
-                    Row(children: [
-                      if (onView != null) cardIcon(Icons.visibility_outlined, onView!, AppColors.primary),
-                      cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
-                      cardIcon(Icons.delete_outline, () => confirmarEliminar(context), AppColors.danger),
-                    ]),
-                  ],
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: AppColors.primary,
+                           fontWeight: FontWeight.w700, fontSize: 16)),
+                      Text(subtitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: AppColors.textGrey, fontSize: 12.5)),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Divider(height: 1, color: AppColors.border),
+            ),
+            Row(
+              children: [
+                const Text('Estado',
+                    style: TextStyle(color: AppColors.primary,
+                        fontWeight: FontWeight.w600, fontSize: 12.5)),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(isActive ? 'Activa' : 'Inactiva',
+                      style: TextStyle(color: statusColor, fontSize: 10.5,
+                          fontWeight: FontWeight.w600)),
+                ),
+                const Spacer(),
+                if (onView != null) cardIcon(Icons.visibility_outlined, onView!, AppColors.primary),
+                cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
+                cardIcon(Icons.delete_outline, () => confirmarEliminar(context), AppColors.danger),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget cardIcon(IconData icon, VoidCallback onTap, Color color) {
     return Padding(
-      padding: const EdgeInsets.only(top: 6, right: 8),
+      padding: const EdgeInsets.only(left: 8),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
