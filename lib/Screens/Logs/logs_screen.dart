@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../Themes/app_colors.dart';
 import '../../Widgets/app_top_bar.dart';
 import '../../Widgets/date_range_filter.dart';
+import 'Widgets/log_card.dart';
 import '../../Widgets/navigation_bar.dart';
 import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
@@ -29,8 +30,7 @@ final List<Map<String, dynamic>> logs = [
   },
   {
     'titulo': 'Registro de merma',
-    'descripcion':
-        'Se registro una merma de un platillo indicando la justificacion correspondiente.',
+    'descripcion':'Se registro una merma de un platillo indicando la justificacion correspondiente.',
     'icono': Icons.warning_amber_rounded,
     'hora': '11:20 AM',
     'fecha': '25/05/2024',
@@ -66,14 +66,62 @@ final List<Map<String, dynamic>> logs = [
   },
 ];
 
-class LogsScreen extends StatelessWidget {
+class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});
+
+  @override
+  State<LogsScreen> createState() => LogsScreenState();
+}
+
+class LogsScreenState extends State<LogsScreen> {
+  String fechaDesde = '01/05/2024';
+  String fechaHasta = '25/05/2024';
+  String busqueda = '';
+  final TextEditingController buscadorController = TextEditingController();
+  List<Map<String, dynamic>> logsFiltrados = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filtrarLogs();
+  }
+
+  @override
+  void dispose() {
+    buscadorController.dispose();
+    super.dispose();
+  }
+
+  DateTime aFecha(String t) {
+    var p = t.split('/');
+    return DateTime(int.parse(p[2]), int.parse(p[1]), int.parse(p[0]));
+  }
+
+  bool enRango(String fecha) {
+    DateTime f = aFecha(fecha);
+    DateTime desde = aFecha(fechaDesde);
+    DateTime hasta = aFecha(fechaHasta);
+    return !f.isBefore(desde) && !f.isAfter(hasta);
+  }
+
+  bool coincideNombre(Map<String, dynamic> log) {
+    if (busqueda.isEmpty) return true;
+    return log['titulo'].toLowerCase().contains(busqueda.toLowerCase());
+  }
+
+  void filtrarLogs() {
+    setState(() {
+      logsFiltrados = logs
+          .where((log) => enRango(log['fecha']) && coincideNombre(log))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-    drawer: const AppDrawer(),
+      drawer: const AppDrawer(),
       appBar: const AppTopBar(title: 'Logs'),
       body: SafeArea(
         bottom: false,
@@ -87,16 +135,50 @@ class LogsScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   AppSearchBar(
                     hintText: 'Buscar en logs...',
-                    actionLabel: 'Cargar más datos',
                     actionIcon: Icons.refresh,
-                    onPressed: () {},
+                    controller: buscadorController,
+                    onChanged: (valor) {
+                      busqueda = valor;
+                      filtrarLogs();
+                    },
+                    onPressed: filtrarLogs,
                   ),
                   const SizedBox(height: 12),
-                  DateRangeFilter(
-                    desde: '01/05/2026',
-                    hasta: '25/05/2026',
-                    onDesdeTap: () {},
-                    onHastaTap: () {},
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: DateRangeFilter(
+                          desde: fechaDesde,
+                          hasta: fechaHasta,
+                          onDesdeTap: () {},
+                          onHastaTap: () {},
+                          onDesdeFecha: (fecha) => setState(
+                              () => fechaDesde = '${fecha.day}/${fecha.month}/${fecha.year}'),
+                          onHastaFecha: (fecha) => setState(
+                              () => fechaHasta = '${fecha.day}/${fecha.month}/${fecha.year}'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: filtrarLogs,
+                        child: Container(
+                          height: 44,
+                          width: 44,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.filter_alt_outlined,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -104,10 +186,10 @@ class LogsScreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                itemCount: logs.length,
+                itemCount: logsFiltrados.length,
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 12),
-                itemBuilder: (context, index) => logCard(logs[index]),
+                itemBuilder: (context, index) => LogCard(log: logsFiltrados[index]),
               ),
             ),
             const PaginationBar(
@@ -120,78 +202,5 @@ class LogsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: const AppNavigatorBar(currentIndex: null),
     );
-  }
-
-  Widget logCard(Map<String, dynamic> log) {
-    final Color color = log['color'] as Color;
-
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          logIcono(log['icono'] as IconData, color),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                logTitulo(log['titulo'] as String, log['hora'] as String),
-                Text(
-                  log['descripcion'] as String,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: AppColors.textGrey, fontSize: 12.5),
-                ),
-                const SizedBox(height: 6),
-                logFecha(log['fecha'] as String),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget logIcono(IconData icono, Color color) {
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Icon(icono, color: color, size: 30),
-    );
-  }
-
-  Widget logTitulo(String titulo, String hora) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            titulo,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.primary,
-              fontWeight: FontWeight.w700,
-              fontSize: 15,
-            ),
-          ),
-        ),
-        Text(hora, style: const TextStyle(color: AppColors.textGrey, fontSize: 11)),
-      ],
-    );
-  }
-
-  Widget logFecha(String fecha) {
-    return Text(fecha, style: const TextStyle(color: AppColors.textGrey, fontSize: 11));
   }
 }

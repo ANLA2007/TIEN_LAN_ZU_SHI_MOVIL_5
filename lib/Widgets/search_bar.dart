@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-
 import '../Themes/app_colors.dart';
 
 class AppSearchBar extends StatelessWidget {
   final String hintText;
-  final String actionLabel;
-  final IconData actionIcon; 
+  final String? actionLabel;
+  final IconData actionIcon;
   final VoidCallback onPressed;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
 
   const AppSearchBar({
     super.key,
     this.hintText = 'Buscar...',
-    required this.actionLabel,
-    this.actionIcon = Icons.add,   
+    this.actionLabel,
+    this.actionIcon = Icons.add,
     required this.onPressed,
+    this.controller,
+    this.onChanged,
   });
 
   @override
@@ -29,6 +32,8 @@ class AppSearchBar extends StatelessWidget {
               border: Border.all(color: AppColors.border),
             ),
             child: TextField(
+              controller: controller,
+              onChanged: onChanged,
               decoration: InputDecoration(
                 isDense: true,
                 hintText: hintText,
@@ -48,12 +53,26 @@ class AppSearchBar extends StatelessWidget {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(14)),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-           Icon(actionIcon, color: Colors.white, size: 20),
-              const SizedBox(width: 6),
-              Text(actionLabel, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
-            ]),
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(actionIcon, color: Colors.white, size: 20),
+                if (actionLabel != null) const SizedBox(width: 6),
+                if (actionLabel != null)
+                  Text(
+                    actionLabel!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ],
