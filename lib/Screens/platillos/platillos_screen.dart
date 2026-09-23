@@ -98,14 +98,6 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
                     },
                   ),
                   const SizedBox(height: 14),
-                  const Text(
-                    'Platillos principales',
-                    style: TextStyle(
-                      color: AppColors.textGrey,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -132,8 +124,8 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
             ),
             const PaginationBar(
               currentPage: 1,
-              totalPages: 7,
-              infoText: 'Mostrando 1-4 de 28',
+              totalPages: 3,
+              infoText: 'Mostrando 1-10 de 30',
             ),
           ],
         ),
