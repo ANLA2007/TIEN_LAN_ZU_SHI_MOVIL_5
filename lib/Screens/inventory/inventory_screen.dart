@@ -49,31 +49,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
   String _formatFecha(DateTime f) =>
       '${f.day.toString().padLeft(2, '0')}/${f.month.toString().padLeft(2, '0')}/${f.year}';
 
-  Future<void> _seleccionarFecha({required bool esDesde}) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: esDesde ? _desde : _hasta,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-      builder: (context, child) => Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: AppColors.primary,
-              ),
-        ),
-        child: child!,
-      ),
-    );
-    if (picked == null) return;
-    setState(() {
-      if (esDesde) {
-        _desde = picked;
-      } else {
-        _hasta = picked;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,8 +101,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   DateRangeFilter(
                     desde: _formatFecha(_desde),
                     hasta: _formatFecha(_hasta),
-                    onDesdeTap: () => _seleccionarFecha(esDesde: true),
-                    onHastaTap: () => _seleccionarFecha(esDesde: false),
+                    onDesdeTap: () {},
+                    onHastaTap: (){},
+                    onDesdeFecha: (fecha) {
+                      setState(() =>_desde = fecha);
+                    },
+                    onHastaFecha: (fecha) {
+                      setState(() =>_hasta = fecha);
+                    },
                   ),
                   const SizedBox(height: 16),
                   for (int i = 0; i < inventario.length; i++) ...[

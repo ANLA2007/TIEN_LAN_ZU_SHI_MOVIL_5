@@ -74,39 +74,28 @@ class MovimientoScreenState extends State<MovimientoScreen> {
         .contains(busqueda.toLowerCase());
   }
 
+  bool coincideFecha(Map<String, dynamic> movimiento) {
+  final partes = (movimiento['fecha'] as String).split('/');
+  final fechaMovimiento = DateTime(
+    int.parse(partes[2]),
+    int.parse(partes[1]),
+    int.parse(partes[0]),
+  );
+  return !fechaMovimiento.isBefore(desde) && !fechaMovimiento.isAfter(hasta);
+}
+
   void filtrarMovimientos() {
     setState(() {
-      movimientosFiltrados = movimientos.where(coincideNombre).toList();
+      movimientosFiltrados = movimientos
+          .where((m) =>
+              coincideNombre(m) && coincideFecha(m))
+          .toList();
     });
   }
 
   String formatFecha(DateTime f) =>
       '${f.day.toString().padLeft(2, '0')}/${f.month.toString().padLeft(2, '0')}/${f.year}';
 
-  Future<void> seleccionarFecha({required bool esDesde}) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: esDesde ? desde : hasta,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-      builder: (context, child) => Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: AppColors.primary,
-              ),
-        ),
-        child: child!,
-      ),
-    );
-    if (picked == null) return;
-    setState(() {
-      if (esDesde) {
-        desde = picked;
-      } else {
-        hasta = picked;
-      }
-    });
-  }
 
   IconData iconoPorTipo(String tipo) {
     switch (tipo) {
@@ -192,8 +181,20 @@ class MovimientoScreenState extends State<MovimientoScreen> {
                   DateRangeFilter(
                     desde: formatFecha(desde),
                     hasta: formatFecha(hasta),
-                    onDesdeTap: () => seleccionarFecha(esDesde: true),
-                    onHastaTap: () => seleccionarFecha(esDesde: false),
+                    onDesdeTap: () {},
+                    onHastaTap: () {},
+                    onDesdeFecha: (fecha) {
+                      setState(() {
+                        desde = fecha;
+                        filtrarMovimientos();
+                      });
+                    },
+                    onHastaFecha: (fecha) {
+                      setState(() {
+                        hasta = fecha;
+                        filtrarMovimientos();
+                      });
+                    },
                   ),
                   const SizedBox(height: 16),
                   for (int i = 0; i < movimientosFiltrados.length; i++) ...[
