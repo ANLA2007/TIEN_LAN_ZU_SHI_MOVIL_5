@@ -9,7 +9,7 @@ class ListItemCard extends StatelessWidget {
   final bool isActive;
   final Color accentColor;
   final VoidCallback onTap;
-  final VoidCallback onView;
+  final VoidCallback? onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -21,7 +21,7 @@ class ListItemCard extends StatelessWidget {
     required this.isActive,
     required this.accentColor,
     required this.onTap,
-    required this.onView,
+    this.onView,
     required this.onEdit,
     required this.onDelete,
   });
@@ -99,9 +99,9 @@ class ListItemCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: AppColors.textGrey, fontSize: 12.5)),
                     Row(children: [
-                      cardIcon(Icons.visibility_outlined, onView, AppColors.primary),
+                      if (onView != null) cardIcon(Icons.visibility_outlined, onView!, AppColors.primary),
                       cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
-                      cardIcon(Icons.delete_outline, onDelete, AppColors.danger),
+                      cardIcon(Icons.delete_outline, () => confirmarEliminar(context), AppColors.danger),
                     ]),
                   ],
                 ),
@@ -120,9 +120,33 @@ class ListItemCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: color.withOpacity(0.1),
+           borderRadius: BorderRadius.circular(8)),
           child: Icon(icon, size: 20, color: color),
         ),
+      ),
+    );
+  }
+
+  void confirmarEliminar(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('¿Eliminar elemento?'),
+        content: Text('¿Deseas eliminar "$title"? Esta acción no se puede deshacer.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              onDelete();
+            },
+            child: const Text('Eliminar', style: TextStyle(color: AppColors.danger)),
+          ),
+        ],
       ),
     );
   }
