@@ -43,28 +43,35 @@ class PlatillosScreen extends StatefulWidget {
 }
 
 class _PlatillosScreenState extends State<PlatillosScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String _query = '';
+  String busqueda = '';
+  final TextEditingController buscadorController = TextEditingController();
+  List<Map<String, dynamic>> platillosFiltrados = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filtrarPlatillos();
+  }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    buscadorController.dispose();
     super.dispose();
   }
 
-  List<Map<String, dynamic>> get _platillosFiltrados {
-    if (_query.trim().isEmpty) return platillos;
-    final q = _query.trim().toLowerCase();
-    return platillos.where((p) {
-      final nombre = (p['nombre'] as String).toLowerCase();
-      return nombre.contains(q);
-    }).toList();
+  bool coincideNombre(Map<String, dynamic> platillo) {
+    if (busqueda.isEmpty) return true;
+    return (platillo['nombre'] as String).toLowerCase().contains(busqueda.toLowerCase());
+  }
+
+  void filtrarPlatillos() {
+    setState(() {
+      platillosFiltrados = platillos.where(coincideNombre).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final lista = _platillosFiltrados;
-
     return Scaffold(
       backgroundColor: AppColors.background,
       drawer: const AppDrawer(),
@@ -80,9 +87,11 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
                 children: [
                   AppSearchBar(
                     hintText: 'Buscar platillo...',
-                    controller: _searchController,
+                    actionIcon: Icons.add,
+                    controller: buscadorController,
                     onChanged: (value) {
-                      setState(() => _query = value);
+                      busqueda = value;
+                      filtrarPlatillos();
                     },
                     onPressed: () {
                       Navigator.of(context).pushNamed(AppRoutes.newplatillos);
@@ -101,19 +110,12 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
               ),
             ),
             Expanded(
-              child: lista.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No se encontraron platillos',
-                        style: TextStyle(color: AppColors.textGrey, fontSize: 13.5),
-                      ),
-                    )
-                  : ListView.separated(
+              child: ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                      itemCount: lista.length,
+                      itemCount: platillosFiltrados.length,
                       separatorBuilder: (context, index) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
-                        final platillo = lista[index];
+                        final platillo = platillosFiltrados[index];
 
                         return PlatilloItemCard(
                           title: platillo['nombre'] as String,
