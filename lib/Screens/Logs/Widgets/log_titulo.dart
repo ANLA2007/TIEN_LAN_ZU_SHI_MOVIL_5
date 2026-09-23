@@ -17,7 +17,7 @@ class LogTitulo extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                color: AppColors.primary,
+                color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontSize: 15,
               )),
