@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Themes/app_colors.dart';
+import '../../../Themes/app_colors.dart';
 
 class PlatilloItemCard extends StatelessWidget {
   final String title;
