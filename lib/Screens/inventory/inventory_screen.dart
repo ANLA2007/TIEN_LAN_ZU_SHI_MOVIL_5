@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../../Themes/app_colors.dart';
 import '../../Widgets/app_top_bar.dart';
 import '../../Widgets/date_range_filter.dart';
-import '../../Widgets/inventory_item_card.dart';
+import './Widgets/inventory_item_card.dart';
 import '../../Widgets/navigation_bar.dart';
 import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
-import '../../Widgets/stat_card.dart';
+import './Widgets/stat_card.dart';
 import '../../Widgets/app_drawer.dart';
 
 const int _umbralStockBajo = 5;
