@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../Themes/app_colors.dart';
 import '../../Widgets/app_top_bar.dart';
-import '../../Widgets/list_item_card.dart';
+import 'Widgets/list_item_card.dart';
 import '../../Widgets/navigation_bar.dart';
 import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
