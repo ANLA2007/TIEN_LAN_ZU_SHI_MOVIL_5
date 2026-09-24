@@ -49,6 +49,21 @@ class _InventoryScreenState extends State<InventoryScreen> {
   String _formatFecha(DateTime f) =>
       '${f.day.toString().padLeft(2, '0')}/${f.month.toString().padLeft(2, '0')}/${f.year}';
 
+  Color colorPorTipo(String tipo) {
+    switch (tipo) {
+      case 'TOTAL PORCIONES':
+        return AppColors.active;
+      case 'Stock bajo':
+        return AppColors.inactive;
+      case 'Sin stock':
+        return AppColors.danger;
+      default:
+        return AppColors.textGrey;
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,25 +81,23 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   Row(
                     children: [
                       const Expanded(
-                        child: StatCard(label: 'Total Porciones', value: 56),
+                        child: StatCard(label: 'TOTAL PORCIONES', value: 56, color: AppColors.active,),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: StatCard(
-                          label: 'Stock bajo',
+                          label: 'STOCK BAJO',
                           value: 8,
-                          dotColor: AppColors.danger,
-                          valueColor: AppColors.danger,
-                          backgroundColor: AppColors.danger.withOpacity(0.06),
+                          color: AppColors.inactive,
                         ),
                       ),
                       const SizedBox(width: 10),
                       const Expanded(
                         child: StatCard(
-                          label: 'Sin stock',
+                          label: 'SIN STOCK',
                           value: 2,
-                          valueColor: AppColors.textGrey,
-                          backgroundColor: AppColors.softBackground,
+                          
+                          color: AppColors.danger,
                         ),
                       ),
                     ],
@@ -92,7 +105,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   const SizedBox(height: 16),
                   AppSearchBar(
                     hintText: 'Buscar porcion...',
-                    actionLabel: 'Nuevo',
+                    
                     onPressed: () {
                       // Navigator.of(context).pushNamed(AppRoutes.newinventario);
                     },
@@ -144,7 +157,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
       onReconsumibleChanged: (value) {
         setState(() => inventario[index]['reconsumible'] = value);
       },
-      onView: () {},
       onEdit: () {},
       onDelete: () {},
     );
