@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Themes/app_colors.dart';
+import '../../../Themes/app_colors.dart';
 
 class InventoryItemCard extends StatelessWidget {
   final String title;
@@ -10,7 +10,6 @@ class InventoryItemCard extends StatelessWidget {
   final bool reconsumible;
   final bool stockBajo;
   final ValueChanged<bool> onReconsumibleChanged;
-  final VoidCallback onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -22,7 +21,6 @@ class InventoryItemCard extends StatelessWidget {
     required this.imageAsset,
     required this.reconsumible,
     required this.onReconsumibleChanged,
-    required this.onView,
     required this.onEdit,
     required this.onDelete,
     this.stockBajo = false,
@@ -142,9 +140,8 @@ class InventoryItemCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              cardIcon(Icons.visibility_outlined, onView),
-              cardIcon(Icons.edit_outlined, onEdit),
-              cardIcon(Icons.delete_outline, onDelete),
+              cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
+              cardIcon(Icons.delete_outline, onDelete, AppColors.danger),
             ],
           ),
         ],
@@ -152,14 +149,24 @@ class InventoryItemCard extends StatelessWidget {
     );
   }
 
-  Widget cardIcon(IconData icon, VoidCallback onTap) {
-    return InkWell(
+  Widget cardIcon(IconData icon, VoidCallback onTap, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 6),
+      child: InkWell(
       borderRadius: BorderRadius.circular(8),
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: Icon(icon, size: 20, color: AppColors.textGrey),
+        padding: const EdgeInsets.only(left: 6),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        child: Icon(icon, size: 20, color: color),
+        ),
       ),
-    );
+      ),
+      );
   }
 }

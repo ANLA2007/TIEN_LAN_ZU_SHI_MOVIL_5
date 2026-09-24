@@ -5,7 +5,7 @@ import '../../../Themes/app_colors.dart';
 class StatCard extends StatelessWidget {
   final String label;
   final int value;
-  final Color dotColor;
+  final Color color;
   final Color valueColor;
   final Color backgroundColor;
 
@@ -13,13 +13,14 @@ class StatCard extends StatelessWidget {
     super.key,
     required this.label,
     required this.value,
-    this.dotColor = AppColors.textGrey,
+    required this.color,
     this.valueColor = AppColors.textTitle,
     this.backgroundColor = AppColors.cardBackground,
   });
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
@@ -35,30 +36,33 @@ class StatCard extends StatelessWidget {
               Container(
                 width: 6,
                 height: 6,
-                decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  label,
+                  label.toUpperCase(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: dotColor,
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w500,
+                  style: const TextStyle(
+                    color: AppColors.textTitle,
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.4,
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 6),
-          Text(
-            '$value',
-            style: TextStyle(
-              color: valueColor,
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+          Center(
+            child: Text(
+              '$value',
+              style: TextStyle(
+                color: valueColor == AppColors.textTitle ? color : valueColor,
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
         ],
