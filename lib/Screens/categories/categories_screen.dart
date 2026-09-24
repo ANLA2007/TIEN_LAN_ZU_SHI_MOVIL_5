@@ -135,8 +135,8 @@ class CategoriesScreenState extends State<CategoriesScreen> {
             ),
             const PaginationBar(
               currentPage: 1,
-              totalPages: 3,
-              infoText: 'Mostrando 1-10 de 30',
+              totalPages: 1,
+              infoText: 'Mostrando 1-10 de 1',
             ),
           ],
         ),
