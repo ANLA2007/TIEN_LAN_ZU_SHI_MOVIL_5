@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-
 import '../../../Themes/app_colors.dart';
 
 class ListItemCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String imageAsset;
+  final String title, subtitle, imageAsset;
   final bool isActive;
   final Color accentColor;
-  final VoidCallback onTap;
+  final VoidCallback onTap, onEdit, onDelete;
   final VoidCallback? onView;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
 
   const ListItemCard({
     super.key,
@@ -26,47 +21,62 @@ class ListItemCard extends StatelessWidget {
     required this.onDelete,
   });
 
+  static TextStyle estilo(
+    Color color,
+    double size,
+    FontWeight weight, [
+    double? height,
+  ]) {
+    return TextStyle(
+      color: color,
+      fontSize: size,
+      fontWeight: weight,
+      height: height,
+    );
+  }
+
+  static BoxDecoration caja(
+    Color color,
+    double radius, {
+    Color? border,
+  }) {
+    return BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(radius),
+      border: border == null ? null : Border.all(color: border),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Color statusColor = isActive ? AppColors.active : AppColors.inactive;
+    final statusColor =
+        isActive ? AppColors.active : AppColors.inactive;
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.cardBackground,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+        decoration: caja(
+          AppColors.cardBackground,16,border: AppColors.border,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: accentColor, width: 2),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      imageAsset,
-                      width: 62,
-                      height: 62,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        width: 62,
-                        height: 62,
-                        color: accentColor.withOpacity(0.25),
-                        alignment: Alignment.center,
-                        child: Icon(Icons.image_outlined, color: accentColor, size: 30),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    imageAsset,
+                    width: 62,height: 62,fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      width: 62,height: 62,
+                      alignment: Alignment.center,
+                      color: accentColor.withOpacity(0.25),
+                      child: Icon(
+                        Icons.image_outlined,color: accentColor,size: 30,
                       ),
                     ),
                   ),
@@ -77,44 +87,63 @@ class ListItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.black,
-                           fontWeight: FontWeight.w700, fontSize: 16)),
-                      Text(subtitle,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: AppColors.textGrey, fontSize: 12.5)),
+                      Text(
+                        title,
+                        maxLines: 1,overflow: TextOverflow.ellipsis,
+                        style: estilo( Colors.black,16,FontWeight.w700,)),
+                      Text(
+                        subtitle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: estilo(
+                          AppColors.textGrey,12.5,FontWeight.w400,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Divider(height: 1, color: AppColors.border),
+            const Divider(
+              height: 17,
+              color: AppColors.border,
             ),
             Row(
               children: [
-                const Text('Estado',
-                    style: TextStyle(color: AppColors.primary,
-                        fontWeight: FontWeight.w600, fontSize: 12.5)),
+                Text(
+                  'Estado',
+                  style: estilo(
+                    AppColors.primary,12.5,FontWeight.w600,
+                  ),
+                ),
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,vertical: 3,
                   ),
-                  child: Text(isActive ? 'Activa' : 'Inactiva',
-                      style: TextStyle(color: statusColor, fontSize: 10.5,
-                          fontWeight: FontWeight.w600)),
+                  decoration: caja(
+                    statusColor.withOpacity(0.15),20,
+                  ),
+                  child: Text(
+                    isActive ? 'Activa' : 'Inactiva',
+                    style: estilo(
+                      statusColor,10.5,FontWeight.w600,
+                    ),
+                  ),
                 ),
                 const Spacer(),
-                if (onView != null) cardIcon(Icons.visibility_outlined, onView!, AppColors.primary),
-                cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
-                cardIcon(Icons.delete_outline, () => confirmarEliminar(context), AppColors.danger),
+                if (onView != null)
+                  cardIcon(
+                    Icons.visibility_outlined, onView!,AppColors.primary,
+                  ),
+                cardIcon(
+                  Icons.edit_outlined,onEdit,AppColors.primary,
+                ),
+                cardIcon(
+                  Icons.delete_outline,
+                  () => confirmarEliminar(context),
+                  AppColors.danger,
+                ),
               ],
             ),
           ],
@@ -123,7 +152,11 @@ class ListItemCard extends StatelessWidget {
     );
   }
 
-  Widget cardIcon(IconData icon, VoidCallback onTap, Color color) {
+  Widget cardIcon(
+    IconData icon,
+    VoidCallback onTap,
+    Color color,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: InkWell(
@@ -131,118 +164,112 @@ class ListItemCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(color: color.withOpacity(0.1),
-           borderRadius: BorderRadius.circular(8)),
-          child: Icon(icon, size: 20, color: color),
+          decoration: caja(
+            color.withOpacity(0.1),
+            8,
+          ),
+          child: Icon(
+            icon,size: 20,color: color,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget botonDialogo(
+    String texto,
+    VoidCallback onTap,
+    Color fondo,
+    Color colorTexto, {
+    Color? border,
+  }) {
+    return Expanded(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(30),
+        onTap: onTap,
+        child: Container(
+          height: 46,
+          alignment: Alignment.center,
+          decoration: caja(
+            fondo,30,border: border,
+          ),
+          child: Text(
+            texto,
+            style: estilo(
+              colorTexto,14,FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
   }
 
   void confirmarEliminar(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => Dialog(
-      backgroundColor: Colors.transparent,
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: AppColors.cardBackground,
-          borderRadius: BorderRadius.circular(28),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: AppColors.danger.withOpacity(0.12),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.delete_outline_rounded,
-                color: AppColors.danger,
-                size: 32,
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              '¿Eliminar elemento?',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '¿Deseas eliminar "$title"? Esta acción no se puede deshacer.',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppColors.textGrey,
-                fontSize: 13.5,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 22),
-            Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      height: 46,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.background,
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: AppColors.border),
-                      ),
-                      child: const Text(
-                        'Cancelar',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
+    showDialog(
+      context: context,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: caja(
+            AppColors.cardBackground,
+            28,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 64,height: 64,
+                decoration: BoxDecoration(
+                  color: AppColors.danger.withOpacity(0.12),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () {
-                      Navigator.of(context).pop();
+                child: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: AppColors.danger,size: 32,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '¿Eliminar elemento?',
+                style: estilo(
+                  AppColors.primary,17,FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '¿Deseas eliminar "$title"? Esta acción no se puede deshacer.',
+                textAlign: TextAlign.center,
+                style: estilo(
+                  AppColors.textGrey,13.5,FontWeight.w400,1.4,
+                ),
+              ),
+              const SizedBox(height: 22),
+              Row(
+                children: [
+                  botonDialogo(
+                    'Cancelar',
+                    () => Navigator.of(dialogContext).pop(),
+                    AppColors.background,
+                    AppColors.primary,
+                    border: AppColors.border,
+                  ),
+                  const SizedBox(width: 12),
+                  botonDialogo(
+                    'Eliminar',
+                    () {
+                      Navigator.of(dialogContext).pop();
                       onDelete();
                     },
-                    child: Container(
-                      height: 46,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.danger,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Text(
-                        'Eliminar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
+                    AppColors.danger,
+                  Colors.white,
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
