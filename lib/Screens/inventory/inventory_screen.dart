@@ -33,6 +33,20 @@ final List<Map<String, dynamic>> inventario = [
     'imagen': 'assets/salsa_sambal.jpg',
     'reconsumible': false,
   },
+  {
+    'nombre': 'Char Kway Teow',
+    'stock': 0,
+    'stockDiario': 30,
+    'imagen': 'assets/char_kway_teow.jpg',
+    'reconsumible': false,
+  },
+  {
+    'nombre': 'Nasi goreng y Mee goreng',
+    'stock': 8,
+    'stockDiario': 25,
+    'imagen': 'assets/Nasi_goreng_y_Mee_goreng.jpg',
+    'reconsumible': false,
+  },
 ];
 
 class InventoryScreen extends StatefulWidget {
@@ -133,8 +147,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
             ),
             const PaginationBar(
               currentPage: 1,
-              totalPages: 3,
-              infoText: 'Mostrando 1-10 de 30',
+              totalPages: 1,
+              infoText: 'Mostrando 1-10 de 1',
             ),
           ],
         ),

@@ -33,6 +33,22 @@ final List<Map<String, dynamic>> platillos = [
     'precio': 60.00,
     'disponible': true,
   },
+  {
+    'nombre': 'Mee Goreng Vegetariano',
+    'descripcion':
+        'Fideos fritos con salsa de soja, tofu, vegetales y especias.',
+    'imagen': 'assets/mee_goreng.jpg',
+    'precio': 70.00,
+    'disponible': true,
+  },
+  {
+    'nombre': 'Char Kway Teow Vegetariano',
+    'descripcion':
+        'Fideos planos salteados con tofu, brotes de soja y salsa de soja oscura.',
+    'imagen': 'assets/char_kway_teow.jpg',
+    'precio': 80.00,
+    'disponible': false,
+  },
 ];
 
 class PlatillosScreen extends StatefulWidget {
@@ -124,8 +140,8 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
             ),
             const PaginationBar(
               currentPage: 1,
-              totalPages: 3,
-              infoText: 'Mostrando 1-10 de 30',
+              totalPages: 1,
+              infoText: 'Mostrando 1-10 de 1',
             ),
           ],
         ),
