@@ -5,21 +5,21 @@ import '../../../app_routes.dart';
 
 final List<Map<String, String>> _ventasRecientes = [
   {
-    'fecha': '15 sep. 2026 - 12:32',
-    'cliente': 'María López',
+    'fecha': '25 ago. 2026 - 12:32',
+    'cliente': 'David Sanchez',
     'total': '\$18.50',
     'metodo': 'Efectivo',
     'estado': 'Completada',
   },
   {
-    'fecha': '15 sep. 2026 - 11:45',
-    'cliente': 'Carlos Pérez',
+    'fecha': '28 ago. 2026 - 11:45',
+    'cliente': 'Carolina Reyes',
     'total': '\$24.00',
     'metodo': 'Tarjeta',
     'estado': 'Completada',
   },
   {
-    'fecha': '15 sep. 2026 - 10:20',
+    'fecha': '10 sep. 2026 - 10:20',
     'cliente': 'Ana Torres',
     'total': '\$12.75',
     'metodo': 'Efectivo',
@@ -27,7 +27,7 @@ final List<Map<String, String>> _ventasRecientes = [
   },
   {
     'fecha': '15 sep. 2026 - 09:15',
-    'cliente': 'Luis Martínez',
+    'cliente': 'Jose Tapia',
     'total': '\$30.50',
     'metodo': 'Tarjeta',
     'estado': 'Completada',
