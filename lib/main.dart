@@ -37,6 +37,7 @@ class MainApp extends StatelessWidget {
         AppRoutes.movimiento:(_)=>const MovimientoScreen(),
         AppRoutes.usuarios:(_)=>const UsersScreen(),
         AppRoutes.newUsuario:(_)=>const NewUserScreen(),
+        AppRoutes.newplatillos:(_)=>const NuevoPlatilloScreen(),
         
       },
     );
