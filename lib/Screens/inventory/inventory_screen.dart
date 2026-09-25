@@ -172,7 +172,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
       onReconsumibleChanged: (value) {
         setState(() => inventario[index]['reconsumible'] = value);
       },
-      onEdit: () {},
+      onEdit: () { Navigator.of(context).pushNamed(AppRoutes.newinventario);},
       onDelete: () {},
     );
   }
