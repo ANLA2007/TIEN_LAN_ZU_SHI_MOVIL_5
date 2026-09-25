@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
         Navigator.of(context).pushNamed(AppRoutes.logs);
         break;
       case 3: // Configuracion
-        // Navigator.of(context).pushNamed(AppRoutes.configuracion);
+         Navigator.of(context).pushNamed(AppRoutes.settings);
         break;
     }
   }

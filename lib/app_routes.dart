@@ -13,6 +13,7 @@ static const String movimiento='/movimiento';
 static const String usuarios='/usuarios';
 static const String newUsuario='/new_usuario';
 static const String newmovimiento='/new_movimiento';
+static const String settings='/settings'; 
 
   AppRoutes._();
 }
