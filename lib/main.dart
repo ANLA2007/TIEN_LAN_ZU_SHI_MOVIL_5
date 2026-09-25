@@ -10,6 +10,8 @@ import 'screens/platillos/platillos_screen.dart';
 //import 'screens/platillos/new_platillo_screen.dart';
 import 'screens/movimiento/movimiento_screen.dart';
 //import 'Screens/login/login_screen.dart';
+import 'screens/users/users_screen.dart';
+import 'screens/users/new_user_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -33,6 +35,9 @@ class MainApp extends StatelessWidget {
         AppRoutes.inventario:(_)=>const InventoryScreen(),
         AppRoutes.platillos:(_)=>const PlatillosScreen(),
         AppRoutes.movimiento:(_)=>const MovimientoScreen(),
+        AppRoutes.usuarios:(_)=>const UsersScreen(),
+        AppRoutes.newUsuario:(_)=>const NewUserScreen(),
+        
       },
     );
   }

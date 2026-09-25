@@ -10,7 +10,8 @@ static const String newinventario='/new_inventario';
 static const String platillos='/platillos';
 static const String newplatillos='/new_platillos';
 static const String movimiento='/movimiento';
-
+static const String usuarios='/usuarios';
+static const String newUsuario='/new_usuario';
 
   AppRoutes._();
 }
