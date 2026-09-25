@@ -38,9 +38,12 @@ class PlatilloItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.border),
         ),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
@@ -90,6 +93,11 @@ class PlatilloItemCard extends StatelessWidget {
                     style: const TextStyle(
                         color: AppColors.textGrey, fontSize: 12.5),
                   ),
+                ],
+              ),
+            ),
+              ],
+            ),
                   const SizedBox(height: 6),
                   const Divider(height: 1, color: AppColors.border),
                   const SizedBox(height: 6),
@@ -128,10 +136,10 @@ class PlatilloItemCard extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
     );
+        
+      
+    
   }
 
   Widget cardIcon(IconData icon, VoidCallback onTap, Color color) {
