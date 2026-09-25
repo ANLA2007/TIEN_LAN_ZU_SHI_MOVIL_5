@@ -4,7 +4,8 @@ import '../Themes/app_colors.dart';
 class StatusSwitch extends StatelessWidget {
   final bool value;
   final Function(bool) onChanged;
-  const StatusSwitch({super.key, required this.value, required this.onChanged});
+  final String label;
+  const StatusSwitch({super.key, required this.value, required this.onChanged, this.label = 'Estado',});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class StatusSwitch extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Estado', style: TextStyle(fontWeight: FontWeight.w600)),
-          Switch(value: value, onChanged: onChanged, activeColor: AppColors.primary),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+          Switch(value: value, onChanged: onChanged, activeColor: Colors.white, activeTrackColor: AppColors.primary, inactiveThumbColor: Colors.white, inactiveTrackColor: AppColors.border,),
         ],
       ),
     );
