@@ -9,6 +9,7 @@ import '../../Widgets/app_drawer.dart';
 import 'Widgets/movement_stat_card.dart';
 import 'Widgets/movement_item_card.dart';
 import '../../app_routes.dart';
+import './Widgets/detalle_movimiento.dart';
 
 final List<Map<String, dynamic>> movimientos = [
   {
@@ -220,16 +221,32 @@ class MovimientoScreenState extends State<MovimientoScreen> {
 
   Widget _buildItem(Map<String, dynamic> movimiento) {
     final tipo = movimiento['tipo'] as String;
+    final icon = iconoPorTipo(tipo);
+    final color = colorPorTipo(tipo);
 
     return MovementItemCard(
-      icon: iconoPorTipo(tipo),
-      color: colorPorTipo(tipo),
+      icon: icon,
+      color: color,
       title: movimiento['titulo'] as String,
       badgeText: tipo,
       fecha: movimiento['fecha'] as String,
       hora: movimiento['hora'] as String,
       cantidad: movimiento['cantidad'] as int,
-      onTap: () {},
+      onTap: () {
+        showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        builder: (context) => DetalleMovimiento(
+          movimiento: movimiento,
+          icon: icon,
+          color: color,
+        ),
+      );
+      },
     );
   }
 }
