@@ -8,6 +8,7 @@ import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
 import './Widgets/stat_card.dart';
 import '../../Widgets/app_drawer.dart';
+import '../../app_routes.dart';
 
 const int _umbralStockBajo = 5;
 
@@ -121,7 +122,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     hintText: 'Buscar porcion...',
                     
                     onPressed: () {
-                      // Navigator.of(context).pushNamed(AppRoutes.newinventario);
+                     Navigator.of(context).pushNamed(AppRoutes.newinventario);
                     },
                   ),
                   const SizedBox(height: 12),

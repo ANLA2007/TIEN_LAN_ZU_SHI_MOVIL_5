@@ -7,6 +7,7 @@ import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
 import '../../Widgets/app_drawer.dart';
 import '../../app_routes.dart';
+import 'Widgets/detalle_platillo.dart';
 
 final List<Map<String, dynamic>> platillos = [
   {
@@ -16,6 +17,7 @@ final List<Map<String, dynamic>> platillos = [
     'imagen': 'assets/nasi_lemak.jpg',
     'precio': 75.00,
     'disponible': true,
+    'reconsumible': true,
   },
   {
     'nombre': 'Curry Laksa Vegetal',
@@ -24,6 +26,7 @@ final List<Map<String, dynamic>> platillos = [
     'imagen': 'assets/curry_laksa.jpg',
     'precio': 85.00,
     'disponible': true,
+    'reconsumible': false,
   },
   {
     'nombre': 'Roti Canaï con Curry',
@@ -32,6 +35,7 @@ final List<Map<String, dynamic>> platillos = [
     'imagen': 'assets/roti_canai.jpg',
     'precio': 60.00,
     'disponible': true,
+    'reconsumible': true,
   },
   {
     'nombre': 'Mee Goreng Vegetariano',
@@ -40,6 +44,7 @@ final List<Map<String, dynamic>> platillos = [
     'imagen': 'assets/mee_goreng.jpg',
     'precio': 70.00,
     'disponible': true,
+    'reconsumible': false,
   },
   {
     'nombre': 'Char Kway Teow Vegetariano',
@@ -48,6 +53,7 @@ final List<Map<String, dynamic>> platillos = [
     'imagen': 'assets/char_kway_teow.jpg',
     'precio': 80.00,
     'disponible': false,
+    'reconsumible': true,
   },
 ];
 
@@ -131,8 +137,17 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
                           imageAsset: platillo['imagen'] as String,
                           price: platillo['precio'] as double,
                           available: platillo['disponible'] as bool,
-                          onTap: () {},
-                          onEdit: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.white,
+                              builder: (context) => DetallePlatillo(platillo: platillo),
+                            );
+                          },
+                          onEdit: () {
+                            Navigator.of(context).pushNamed(AppRoutes.newplatillos);
+                          },
                           onDelete: () {},
                         );
                       },
