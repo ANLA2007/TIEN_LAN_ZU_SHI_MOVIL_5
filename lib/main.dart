@@ -7,7 +7,7 @@ import 'screens/categories/new_category_screen.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/inventory/inventory_screen.dart';
 import 'screens/platillos/platillos_screen.dart';
-//import 'screens/platillos/new_platillo_screen.dart';
+import 'screens/platillos/new_platillo_screen.dart';
 import 'screens/movimiento/movimiento_screen.dart';
 //import 'Screens/login/login_screen.dart';
 import 'screens/users/users_screen.dart';
