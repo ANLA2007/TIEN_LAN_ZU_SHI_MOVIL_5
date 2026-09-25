@@ -4,8 +4,10 @@ import '../Themes/app_colors.dart';
 class FormTextField extends StatelessWidget {
   final String label;
   final String hint;
+  
   final int lines;
-  const FormTextField({super.key, required this.label, required this.hint, this.lines = 1});
+  final TextInputType keyboardType;
+  const FormTextField({super.key, required this.label, required this.hint, this.lines = 1, this.keyboardType = TextInputType.text});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class FormTextField extends StatelessWidget {
         const SizedBox(height: 8),
         TextField(
           maxLines: lines,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
             filled: true,
