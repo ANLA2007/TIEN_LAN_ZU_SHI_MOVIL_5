@@ -12,6 +12,7 @@ import 'screens/movimiento/movimiento_screen.dart';
 //import 'Screens/login/login_screen.dart';
 import 'screens/users/users_screen.dart';
 import 'screens/users/new_user_screen.dart';
+import 'screens/inventory/new_inventario_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -38,6 +39,7 @@ class MainApp extends StatelessWidget {
         AppRoutes.usuarios:(_)=>const UsersScreen(),
         AppRoutes.newUsuario:(_)=>const NewUserScreen(),
         AppRoutes.newplatillos:(_)=>const NuevoPlatilloScreen(),
+        AppRoutes.newinventario:(_)=>const NuevoInventarioScreen(),
         
       },
     );
