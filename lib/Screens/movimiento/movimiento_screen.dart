@@ -8,6 +8,7 @@ import '../../Widgets/search_bar.dart';
 import '../../Widgets/app_drawer.dart';
 import 'Widgets/movement_stat_card.dart';
 import 'Widgets/movement_item_card.dart';
+import '../../app_routes.dart';
 
 final List<Map<String, dynamic>> movimientos = [
   {
@@ -174,7 +175,7 @@ class MovimientoScreenState extends State<MovimientoScreen> {
                       filtrarMovimientos();
                     },
                     onPressed: () {
-                      // Navigator.of(context).pushNamed(AppRoutes.newmovimiento);
+                      Navigator.of(context).pushNamed(AppRoutes.newmovimiento);
                     },
                   ),
                   const SizedBox(height: 12),
