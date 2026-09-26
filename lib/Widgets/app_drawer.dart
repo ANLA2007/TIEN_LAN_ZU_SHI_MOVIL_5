@@ -13,7 +13,7 @@ class AppDrawer extends StatelessWidget {
          Navigator.of(context).pushNamed(AppRoutes.usuarios);
         break;
       case 1: // Roles
-        // Navigator.of(context).pushNamed(AppRoutes.roles);
+         Navigator.of(context).pushNamed(AppRoutes.roles);
         break;
       case 2: // Logs
         Navigator.of(context).pushNamed(AppRoutes.logs);

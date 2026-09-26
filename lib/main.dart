@@ -15,6 +15,8 @@ import 'screens/users/new_user_screen.dart';
 import 'screens/inventory/new_inventario_screen.dart';
 import 'screens/movimiento/new_movimiento_screen.dart';
 import 'screens/Settings/settings_screen.dart';
+import 'screens/roles/roles_screen.dart';
+import 'screens/roles/new_role_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -44,6 +46,8 @@ class MainApp extends StatelessWidget {
         AppRoutes.newinventario:(_)=>const NuevoInventarioScreen(),
         AppRoutes.newmovimiento:(_)=>const NuevoMovimientoScreen(),
         AppRoutes.settings:(_)=>const SettingsScreen(),
+        AppRoutes.roles:(_)=>const RolesScreen(),
+        AppRoutes.newRol:(_)=>const NewRoleScreen(),
       },
     );
   }
