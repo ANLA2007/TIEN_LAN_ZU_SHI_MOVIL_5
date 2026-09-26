@@ -9,7 +9,7 @@ import 'screens/inventory/inventory_screen.dart';
 import 'screens/platillos/platillos_screen.dart';
 import 'screens/platillos/new_platillo_screen.dart';
 import 'screens/movimiento/movimiento_screen.dart';
-//import 'Screens/login/login_screen.dart';
+import 'screens/login/login_screen.dart';
 import 'screens/users/users_screen.dart';
 import 'screens/users/new_user_screen.dart';
 import 'screens/inventory/new_inventario_screen.dart';
@@ -26,10 +26,10 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.login,
       routes: {
         //ACA CADA QUIEN PONDRA SUS RUTAS PERO AHORITA NO PARA EVITAR CONFLICTOS EN GIT
-        //AppRoutes.login: (_) => const LoginScreen(),
+        AppRoutes.login: (_) => const LoginScreen(),
         AppRoutes.home: (_) => const DashboardScreen(),
         AppRoutes.categories: (_) => const CategoriesScreen(),
         AppRoutes.newcategories: (_) => const NuevaCategoriaScreen(),

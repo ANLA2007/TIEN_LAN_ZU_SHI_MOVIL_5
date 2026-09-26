@@ -21,6 +21,9 @@ class AppDrawer extends StatelessWidget {
       case 3: // Configuracion
          Navigator.of(context).pushNamed(AppRoutes.settings);
         break;
+      case 4: // Cerrar sesion
+      Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+        break;
     }
   }
 
