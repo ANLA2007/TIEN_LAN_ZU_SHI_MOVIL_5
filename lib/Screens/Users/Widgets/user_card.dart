@@ -185,7 +185,6 @@ class UserCard extends StatelessWidget {
                     'Eliminar',
                     () {
                       Navigator.of(dialogContext).pop();
-                      onDelete();
                     },
                     AppColors.danger,
                     Colors.white,
