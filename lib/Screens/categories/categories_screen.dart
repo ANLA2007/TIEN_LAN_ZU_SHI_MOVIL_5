@@ -7,6 +7,7 @@ import '../../Widgets/pagination_bar.dart';
 import '../../Widgets/search_bar.dart';
 import '../../app_routes.dart';
 import '../../Widgets/app_drawer.dart';
+import '../../Services/user_session.dart';
 
 final List<Map<String, dynamic>> categorias = [
   {
@@ -94,6 +95,7 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                     hintText: 'Buscar categoria...',
                     actionIcon: Icons.add,
                     controller: buscadorController,
+                    showAction: UserSession.esAdministrador, // <-- nueva
                     onChanged: (valor) {
                       busqueda = valor;
                       filtrarCategorias();
@@ -123,6 +125,8 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                     isActive: categoria['activa'] as bool,
                     accentColor: categoria['color'] as Color,
                     onTap: () {},
+                    canEdit: UserSession.esAdministrador,   // <-- nueva
+                    canDelete: UserSession.esAdministrador, // <-- nueva
                     onEdit: () {
                       Navigator.of(context).pushNamed(
                         AppRoutes.newcategories,

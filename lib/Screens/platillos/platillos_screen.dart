@@ -8,6 +8,7 @@ import '../../Widgets/search_bar.dart';
 import '../../Widgets/app_drawer.dart';
 import '../../app_routes.dart';
 import 'Widgets/detalle_platillo.dart';
+import '../../Services/user_session.dart';
 
 final List<Map<String, dynamic>> platillos = [
   {
@@ -111,6 +112,7 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
                     hintText: 'Buscar platillo...',
                     actionIcon: Icons.add,
                     controller: buscadorController,
+                    showAction: UserSession.esAdministrador, // <-- nueva
                     onChanged: (value) {
                       busqueda = value;
                       filtrarPlatillos();
@@ -137,6 +139,8 @@ class _PlatillosScreenState extends State<PlatillosScreen> {
                           imageAsset: platillo['imagen'] as String,
                           price: platillo['precio'] as double,
                           available: platillo['disponible'] as bool,
+                          canEdit: UserSession.esAdministrador,   // <-- nueva
+                          canDelete: UserSession.esAdministrador, // <-- nueva
                           onTap: () {
                             showModalBottomSheet(
                               context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_buffet/Services/user_session.dart';
 import '../../Themes/app_colors.dart';
 import '../../app_routes.dart';
 
@@ -177,8 +178,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushReplacementNamed(AppRoutes.home);
-                                },
+                                final usuario = usuarioController.text.trim().toLowerCase();
+
+                                if (usuario == 'administrador') {
+                                  UserSession.rol = 'administrador';
+                                } else {
+                                  UserSession.rol = 'cajero';
+                                }
+
+                                Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+                              },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primary,
                                   padding: const EdgeInsets.symmetric(vertical: 16),

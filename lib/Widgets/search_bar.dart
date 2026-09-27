@@ -8,6 +8,7 @@ class AppSearchBar extends StatelessWidget {
   final VoidCallback onPressed;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final bool showAction; // si es false, se oculta el botón de la derecha
 
   const AppSearchBar({
     super.key,
@@ -17,6 +18,7 @@ class AppSearchBar extends StatelessWidget {
     required this.onPressed,
     this.controller,
     this.onChanged,
+     this.showAction = true, // <-- nueva
   });
 
   @override
@@ -45,36 +47,40 @@ class AppSearchBar extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 10),
-        InkWell(
-          borderRadius: BorderRadius.circular(14),
-          onTap: onPressed,
-          child: Container(
-            height: 46,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(actionIcon, color: Colors.white, size: 20),
-                if (actionLabel != null) const SizedBox(width: 6),
-                if (actionLabel != null)
-                  Text(
-                    actionLabel!,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
+
+        //nuevo
+        if (showAction) ...[
+                const SizedBox(width: 10),
+                InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: onPressed,
+                  child: Container(
+                    height: 46,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(actionIcon, color: Colors.white, size: 20),
+                        if (actionLabel != null) const SizedBox(width: 6),
+                        if (actionLabel != null)
+                          Text(
+                            actionLabel!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-              ],
-            ),
-          ),
-        ),
+                ),
+        ],
       ],
     );
   }

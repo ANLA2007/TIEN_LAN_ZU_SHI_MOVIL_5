@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
 import '../Themes/app_colors.dart';
 import '../app_routes.dart';
+import '../Services/user_session.dart';
+
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  void _onItemSelected(BuildContext context, int index) {
-    Navigator.of(context).pop();
+          void _irA(BuildContext context, String ruta)
+        {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed(ruta);
+        }
 
-    switch (index) {
-      case 0: // Usuarios
-         Navigator.of(context).pushNamed(AppRoutes.usuarios);
-        break;
-      case 1: // Roles
-         Navigator.of(context).pushNamed(AppRoutes.roles);
-        break;
-      case 2: // Logs
-        Navigator.of(context).pushNamed(AppRoutes.logs);
-        break;
-      case 3: // Configuracion
-         Navigator.of(context).pushNamed(AppRoutes.settings);
-        break;
-      case 4: // Cerrar sesion
-      Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
-        break;
-    }
-  }
+        void _cerrarSesion(BuildContext context) 
+        {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+        }
 
   @override
   Widget build(BuildContext context) {
@@ -35,48 +27,51 @@ class AppDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            encabezado(context),
-            const SizedBox(height: 12),
-            drawerItem(
-              context,
-              icon: Icons.people_outline,
-              label: 'Usuarios',
-              onTap: () => _onItemSelected(context, 0),
-            ),
-            drawerItem(
-              context,
-              icon: Icons.admin_panel_settings_outlined,
-              label: 'Roles',
-              onTap: () => _onItemSelected(context, 1),
-            ),
-            drawerItem(
-              context,
-              icon: Icons.receipt_long_outlined,
-              label: 'Logs',
-              onTap: () => _onItemSelected(context, 2),
-            ),
-            drawerItem(
-              context,
-              icon: Icons.settings_outlined,
-              label: 'Configuracion',
-              onTap: () => _onItemSelected(context, 3),
-            ),
-            const Spacer(),
-            Divider(
-              height: 1,
-              indent: 16,
-              endIndent: 16,
-              color: AppColors.primary.withOpacity(0.2),
-            ),
-            const SizedBox(height: 8),
-            drawerItem(
-              context,
-              icon: Icons.logout,
-              label: 'Cerrar sesion',
-              color: AppColors.accentRed,
-              onTap: () => _onItemSelected(context, 4),
-            ),
-            const SizedBox(height: 12),
+           encabezado(context),
+              const SizedBox(height: 12),
+              // Usuarios, Roles y Logs solo los puede ver el administrador.
+              if (UserSession.esAdministrador) ...[
+                drawerItem(
+                  context,
+                  icon: Icons.people_outline,
+                  label: 'Usuarios',
+                  onTap: () => _irA(context, AppRoutes.usuarios),
+                ),
+                drawerItem(
+                  context,
+                  icon: Icons.admin_panel_settings_outlined,
+                  label: 'Roles',
+                  onTap: () => _irA(context, AppRoutes.roles),
+                ),
+                drawerItem(
+                  context,
+                  icon: Icons.receipt_long_outlined,
+                  label: 'Logs',
+                  onTap: () => _irA(context, AppRoutes.logs),
+                ),
+              ],
+              // Configuracion la ven ambos roles.
+              drawerItem(
+                context,
+                icon: Icons.settings_outlined,
+                label: 'Configuracion',
+                onTap: () => _irA(context, AppRoutes.settings),
+              ),
+              const Spacer(),
+              Divider(
+                height: 1,
+                indent: 16,
+                endIndent: 16,
+                color: AppColors.primary.withOpacity(0.2),
+              ),
+              const SizedBox(height: 8),
+              drawerItem(
+                context,
+                icon: Icons.logout,
+                label: 'Cerrar sesion',
+                color: AppColors.accentRed,
+                onTap: () => _cerrarSesion(context),
+              ), 
           ],
         ),
       ),
@@ -141,9 +136,9 @@ class AppDrawer extends StatelessWidget {
                     color: Colors.white24,
                   ),
                 ),
-                child: const Text(
-                  'ADMINISTRADOR',
-                  style: TextStyle(
+                child: Text(
+                  UserSession.rol.toUpperCase(),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 11,
                   ),

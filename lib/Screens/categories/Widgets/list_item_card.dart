@@ -7,6 +7,8 @@ class ListItemCard extends StatelessWidget {
   final Color accentColor;
   final VoidCallback onTap, onEdit, onDelete;
   final VoidCallback? onView;
+  final bool canEdit;
+ final bool canDelete;
 
   const ListItemCard({
     super.key,
@@ -19,6 +21,8 @@ class ListItemCard extends StatelessWidget {
     this.onView,
     required this.onEdit,
     required this.onDelete,
+    this.canEdit = true,   // <-- nueva
+   this.canDelete = true, // <-- nueva
   });
 
   static TextStyle estilo(
@@ -132,18 +136,13 @@ class ListItemCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                if (onView != null)
-                  cardIcon(
-                    Icons.visibility_outlined, onView!,AppColors.primary,
-                  ),
-                cardIcon(
-                  Icons.edit_outlined,onEdit,AppColors.primary,
-                ),
-                cardIcon(
-                  Icons.delete_outline,
-                  () => confirmarEliminar(context),
-                  AppColors.danger,
-                ),
+                
+                  if (onView != null)
+                  cardIcon(Icons.visibility_outlined, onView!, AppColors.primary),
+                  if (canEdit)
+                  cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
+                  if (canDelete)
+                  cardIcon(Icons.delete_outline, () => confirmarEliminar(context), AppColors.danger),
               ],
             ),
           ],

@@ -11,6 +11,8 @@ class PlatilloItemCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final bool canEdit;
+ final bool canDelete;
 
   const PlatilloItemCard({
     super.key,
@@ -22,6 +24,8 @@ class PlatilloItemCard extends StatelessWidget {
     required this.onEdit,
     required this.onDelete,
     this.available = true,
+    this.canEdit = true,   // <-- nueva
+    this.canDelete = true, // <-- nueva
   });
 
   @override
@@ -129,7 +133,9 @@ class PlatilloItemCard extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      cardIcon(Icons.edit_outlined, onEdit , AppColors.primary),
+                    if (canEdit)
+                      cardIcon(Icons.edit_outlined, onEdit, AppColors.primary),
+                    if (canDelete)
                       cardIcon(Icons.delete_outline, () => confirmarEliminar(context), AppColors.danger),
                     ],
                   ),
