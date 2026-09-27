@@ -13,8 +13,7 @@ import '../../Services/user_session.dart';
 final List<Map<String, dynamic>> platillos = [
   {
     'nombre': 'Nasi Lemak Vegetariano',
-    'descripcion':
-        'Arroz al vapor en leche de coco con sambal, tofu marinado y vegetales frescos.',
+    'descripcion':'Arroz al vapor en leche de coco con sambal, tofu marinado y vegetales frescos.',
     'imagen': 'assets/nasi_lemak.jpg',
     'precio': 75.00,
     'disponible': true,
@@ -22,8 +21,7 @@ final List<Map<String, dynamic>> platillos = [
   },
   {
     'nombre': 'Curry Laksa Vegetal',
-    'descripcion':
-        'Sopa tradicional de fideos con caldo de coco especiado y tofu.',
+    'descripcion':'Sopa tradicional de fideos con caldo de coco especiado y tofu.',
     'imagen': 'assets/curry_laksa.jpg',
     'precio': 85.00,
     'disponible': true,
@@ -31,8 +29,7 @@ final List<Map<String, dynamic>> platillos = [
   },
   {
     'nombre': 'Roti Canaï con Curry',
-    'descripcion':
-        'Pan plano artesanal hojaldrado acompañado de salsa curry aromática.',
+    'descripcion':'Pan plano artesanal hojaldrado acompañado de salsa curry aromática.',
     'imagen': 'assets/roti_canai.jpg',
     'precio': 60.00,
     'disponible': true,
@@ -40,8 +37,7 @@ final List<Map<String, dynamic>> platillos = [
   },
   {
     'nombre': 'Mee Goreng Vegetariano',
-    'descripcion':
-        'Fideos fritos con salsa de soja, tofu, vegetales y especias.',
+    'descripcion':'Fideos fritos con salsa de soja, tofu, vegetales y especias.',
     'imagen': 'assets/mee_goreng.jpg',
     'precio': 70.00,
     'disponible': true,
@@ -49,9 +45,8 @@ final List<Map<String, dynamic>> platillos = [
   },
   {
     'nombre': 'Char Kway Teow Vegetariano',
-    'descripcion':
-        'Fideos planos salteados con tofu, brotes de soja y salsa de soja oscura.',
-    'imagen': 'assets/char_kway_teow.jpg',
+    'descripcion':'Fideos planos salteados con tofu, brotes de soja y salsa de soja oscura.',
+    'imagen': 'assets/Char_Kway_Teow.jpg',
     'precio': 80.00,
     'disponible': false,
     'reconsumible': true,

@@ -38,7 +38,7 @@ final List<Map<String, dynamic>> inventario = [
     'nombre': 'Char Kway Teow',
     'stock': 0,
     'stockDiario': 30,
-    'imagen': 'assets/char_kway_teow.jpg',
+    'imagen': 'assets/Char_Kway_Teow.jpg',
     'reconsumible': false,
   },
   {
