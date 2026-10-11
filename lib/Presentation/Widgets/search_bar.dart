@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_buffet/Themes/app_colors.dart';
+
+class AppSearchBar extends StatelessWidget {
+  final String hintText;
+  final String? actionLabel;
+  final IconData actionIcon;
+  final VoidCallback onPressed;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final bool showAction; // si es false, se oculta el botón de la derecha
+
+  const AppSearchBar({
+    super.key,
+    this.hintText = 'Buscar...',
+    this.actionLabel,
+    this.actionIcon = Icons.add,
+    required this.onPressed,
+    this.controller,
+    this.onChanged,
+     this.showAction = true, // <-- nueva
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 46,
+            decoration: BoxDecoration(
+              color: AppColors.cardBackground,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: TextField(
+              controller: controller,
+              onChanged: onChanged,
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: hintText,
+                hintStyle: const TextStyle(color: AppColors.textGrey, fontSize: 14),
+                prefixIcon: const Icon(Icons.search, color: AppColors.primary, size: 20),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+          ),
+        ),
+
+        //nuevo
+        if (showAction) ...[
+                const SizedBox(width: 10),
+                InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: onPressed,
+                  child: Container(
+                    height: 46,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(actionIcon, color: Colors.white, size: 20),
+                        if (actionLabel != null) const SizedBox(width: 6),
+                        if (actionLabel != null)
+                          Text(
+                            actionLabel!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+        ],
+      ],
+    );
+  }
+}
